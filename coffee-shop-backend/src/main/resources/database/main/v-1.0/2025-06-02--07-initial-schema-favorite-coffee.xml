@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-    <changeSet id="7" author="Trukhmanov Evgeniy">
+    <changeSet id="7" author="Ibrogimov Zafar">
         <createTable tableName="favorite_coffee">
             <column name="user_id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>

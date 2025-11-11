@@ -10,6 +10,8 @@
     <include file="v-1.0/2025-06-02--02-data-coffee-type.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2025-06-02--03-initial-schema-coffee.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2025-06-02--04-data-coffee.xml" relativeToChangelogFile="true"/>
-    <include file="v-1.0/2025-06-02--05-initial-schema-favorite-coffee.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2025-06-02--05-initial-schema-coffee-size.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2025-06-02--06-data-coffee-size.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2025-06-02--07-initial-schema-favorite-coffee.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

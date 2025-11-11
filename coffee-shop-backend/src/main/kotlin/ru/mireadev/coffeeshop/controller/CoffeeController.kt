@@ -61,6 +61,7 @@ class CoffeeController(
             )
         ]
     )
+
     @GetMapping()
     fun getAllCoffee(): ResponseEntity<List<CoffeeResponse>>{
         return coffeeService.getAllCoffee()
@@ -81,6 +82,7 @@ class CoffeeController(
             )
         ]
     )
+
     @GetMapping("/image/{imageName}")
     fun getImageCoffeeByImageName(
         @Parameter(description = "Имя файла изображения", required = true)

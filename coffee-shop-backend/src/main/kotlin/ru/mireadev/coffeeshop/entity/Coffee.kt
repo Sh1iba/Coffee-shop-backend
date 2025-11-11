@@ -23,10 +23,6 @@ data class Coffee @JvmOverloads constructor(
     @Column(name = "name", nullable = false, length = 20)
     var name: String = "",
 
-    @NotNull
-    @Column(name = "price", nullable = false, precision = 5, scale = 2)
-    var price: BigDecimal = 0.toBigDecimal(),
-
     @Size(max = 500)
     @NotNull
     @Column(name = "description", nullable = false, length = 500)
@@ -35,5 +31,8 @@ data class Coffee @JvmOverloads constructor(
     @Size(max = 50)
     @NotNull
     @Column(name = "image_name", nullable = false, length = 50)
-    var imageName: String = ""
+    var imageName: String = "",
+
+    @OneToMany(mappedBy = "coffee", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var sizes: MutableList<CoffeeSize> = mutableListOf()
 )

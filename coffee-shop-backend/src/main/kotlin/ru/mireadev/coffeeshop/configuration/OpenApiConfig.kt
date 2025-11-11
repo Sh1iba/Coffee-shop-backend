@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration
         title = "Coffee Shop Mireadev",
         description = "API приложения для заказа кофе",
         version = "0.0.1",
-        contact = Contact(name = "Трухманов Е.К.", email = "79169380904@mail.ru")
+        contact = Contact(name = "Иброгимов З.А.", email = "zafar_ibrogimov@mail.ru")
     )
 )
 class OpenApiConfig {

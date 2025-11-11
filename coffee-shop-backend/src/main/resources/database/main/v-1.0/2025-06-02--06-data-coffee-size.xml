@@ -1,0 +1,335 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="9" author="Ibrogimov Zafar">
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="1"/>
+            <column name="size" value="S"/>
+            <column name="price" value="191.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="1"/>
+            <column name="size" value="M"/>
+            <column name="price" value="239.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="1"/>
+            <column name="size" value="L"/>
+            <column name="price" value="287.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="2"/>
+            <column name="size" value="S"/>
+            <column name="price" value="199.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="2"/>
+            <column name="size" value="M"/>
+            <column name="price" value="249.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="2"/>
+            <column name="size" value="L"/>
+            <column name="price" value="299.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="3"/>
+            <column name="size" value="S"/>
+            <column name="price" value="223.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="3"/>
+            <column name="size" value="M"/>
+            <column name="price" value="279.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="3"/>
+            <column name="size" value="L"/>
+            <column name="price" value="335.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="4"/>
+            <column name="size" value="S"/>
+            <column name="price" value="231.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="4"/>
+            <column name="size" value="M"/>
+            <column name="price" value="289.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="4"/>
+            <column name="size" value="L"/>
+            <column name="price" value="347.00"/>
+        </insert>
+
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="5"/>
+            <column name="size" value="S"/>
+            <column name="price" value="247.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="5"/>
+            <column name="size" value="M"/>
+            <column name="price" value="309.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="5"/>
+            <column name="size" value="L"/>
+            <column name="price" value="371.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="6"/>
+            <column name="size" value="S"/>
+            <column name="price" value="263.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="6"/>
+            <column name="size" value="M"/>
+            <column name="price" value="329.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="6"/>
+            <column name="size" value="L"/>
+            <column name="price" value="395.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="7"/>
+            <column name="size" value="S"/>
+            <column name="price" value="239.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="7"/>
+            <column name="size" value="M"/>
+            <column name="price" value="299.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="7"/>
+            <column name="size" value="L"/>
+            <column name="price" value="359.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="8"/>
+            <column name="size" value="S"/>
+            <column name="price" value="215.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="8"/>
+            <column name="size" value="M"/>
+            <column name="price" value="269.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="8"/>
+            <column name="size" value="L"/>
+            <column name="price" value="323.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="9"/>
+            <column name="size" value="S"/>
+            <column name="price" value="183.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="9"/>
+            <column name="size" value="M"/>
+            <column name="price" value="229.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="9"/>
+            <column name="size" value="L"/>
+            <column name="price" value="275.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="10"/>
+            <column name="size" value="S"/>
+            <column name="price" value="207.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="10"/>
+            <column name="size" value="M"/>
+            <column name="price" value="259.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="10"/>
+            <column name="size" value="L"/>
+            <column name="price" value="311.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="11"/>
+            <column name="size" value="S"/>
+            <column name="price" value="223.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="11"/>
+            <column name="size" value="M"/>
+            <column name="price" value="279.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="11"/>
+            <column name="size" value="L"/>
+            <column name="price" value="335.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="12"/>
+            <column name="size" value="S"/>
+            <column name="price" value="279.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="12"/>
+            <column name="size" value="M"/>
+            <column name="price" value="349.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="12"/>
+            <column name="size" value="L"/>
+            <column name="price" value="419.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="13"/>
+            <column name="size" value="S"/>
+            <column name="price" value="247.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="13"/>
+            <column name="size" value="M"/>
+            <column name="price" value="309.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="13"/>
+            <column name="size" value="L"/>
+            <column name="price" value="371.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="14"/>
+            <column name="size" value="S"/>
+            <column name="price" value="255.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="14"/>
+            <column name="size" value="M"/>
+            <column name="price" value="319.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="14"/>
+            <column name="size" value="L"/>
+            <column name="price" value="383.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="15"/>
+            <column name="size" value="S"/>
+            <column name="price" value="215.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="15"/>
+            <column name="size" value="M"/>
+            <column name="price" value="269.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="15"/>
+            <column name="size" value="L"/>
+            <column name="price" value="323.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="16"/>
+            <column name="size" value="S"/>
+            <column name="price" value="271.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="16"/>
+            <column name="size" value="M"/>
+            <column name="price" value="339.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="16"/>
+            <column name="size" value="L"/>
+            <column name="price" value="407.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="17"/>
+            <column name="size" value="S"/>
+            <column name="price" value="279.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="17"/>
+            <column name="size" value="M"/>
+            <column name="price" value="349.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="17"/>
+            <column name="size" value="L"/>
+            <column name="price" value="419.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="18"/>
+            <column name="size" value="S"/>
+            <column name="price" value="271.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="18"/>
+            <column name="size" value="M"/>
+            <column name="price" value="339.00"/>
+        </insert>
+
+        <insert tableName="coffee_size">
+            <column name="coffee_id" value="18"/>
+            <column name="size" value="L"/>
+            <column name="price" value="407.00"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
