@@ -1,0 +1,13 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="2" author="Trukhmanov Evgeniy" runOnChange="true">
+        <insert tableName="users">
+            <column name="email" value="admin@mail.ru"/>
+            <column name="name" value="Admin Adminovich"/>
+            <column name="password_hash" value="$2a$10$naKtLuLcLvrDOhKvlMnhs.vGpVe9pVhPz8K2HFonJ/ZaIffj1wIP2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

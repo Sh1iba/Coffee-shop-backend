@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="7" author="Trukhmanov Evgeniy">
+        <createTable tableName="favorite_coffee">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>
+            </column>
+            <column name="coffee_id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint 
+            baseTableName="favorite_coffee"
+            baseColumnNames="user_id"
+            constraintName="fk_favorite_coffee_user_id"
+            referencedTableName="users"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint 
+            baseTableName="favorite_coffee"
+            baseColumnNames="coffee_id"
+            constraintName="fk_favorite_coffee_coffee_id"
+            referencedTableName="coffee"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog> 

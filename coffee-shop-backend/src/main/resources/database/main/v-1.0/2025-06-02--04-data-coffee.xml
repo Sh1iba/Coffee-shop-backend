@@ -1,0 +1,134 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="6" author="Trukhmanov Evgeniy">
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Эспрессо"/>
+            <column name="price" value="239"/>
+            <column name="description" value="Классический итальянский эспрессо - крепкий концентрированный кофе с насыщенным вкусом и ароматом."/>
+            <column name="image_name" value="espresso.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Американо"/>
+            <column name="price" value="249"/>
+            <column name="description" value="Эспрессо, разбавленный горячей водой. Менее крепкий, но сохраняющий аромат кофе."/>
+            <column name="image_name" value="americano.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="2"/>
+            <column name="name" value="Капучино"/>
+            <column name="price" value="279"/>
+            <column name="description" value="Эспрессо с добавлением взбитого молока и молочной пены в равных пропорциях."/>
+            <column name="image_name" value="cappuccino.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="2"/>
+            <column name="name" value="Латте"/>
+            <column name="price" value="289"/>
+            <column name="description" value="Эспрессо с большим количеством взбитого молока и небольшим слоем молочной пены."/>
+            <column name="image_name" value="latte.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Айс Латте"/>
+            <column name="price" value="309"/>
+            <column name="description" value="Охлажденный эспрессо с холодным молоком и льдом."/>
+            <column name="image_name" value="iced_latte.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Фраппе"/>
+            <column name="price" value="329"/>
+            <column name="description" value="Взбитый холодный кофейный напиток со льдом, молоком и сиропом."/>
+            <column name="image_name" value="frappe.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="2"/>
+            <column name="name" value="Флэт Уайт"/>
+            <column name="price" value="299"/>
+            <column name="description" value="Двойной эспрессо с добавлением взбитого молока, но без молочной пены."/>
+            <column name="image_name" value="flat_white.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="2"/>
+            <column name="name" value="Макиато"/>
+            <column name="price" value="269"/>
+            <column name="description" value="Эспрессо с небольшим количеством молочной пены сверху."/>
+            <column name="image_name" value="macchiato.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Ристретто"/>
+            <column name="price" value="229"/>
+            <column name="description" value="Концентрированный эспрессо меньшего объема с более интенсивным вкусом."/>
+            <column name="image_name" value="ristretto.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Лунго"/>
+            <column name="price" value="259"/>
+            <column name="description" value="Длинный эспрессо с большим количеством воды и мягким вкусом."/>
+            <column name="image_name" value="lungo.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Доппио"/>
+            <column name="price" value="279"/>
+            <column name="description" value="Двойная порция эспрессо для истинных ценителей крепкого кофе."/>
+            <column name="image_name" value="doppio.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="1"/>
+            <column name="name" value="Корретто"/>
+            <column name="price" value="349"/>
+            <column name="description" value="Эспрессо с добавлением небольшого количества алкоголя, обычно граппы или бренди."/>
+            <column name="image_name" value="corretto.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="2"/>
+            <column name="name" value="Мокко"/>
+            <column name="price" value="309"/>
+            <column name="description" value="Латте с добавлением шоколада, часто подается со взбитыми сливками."/>
+            <column name="image_name" value="mocha.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Колд Брю"/>
+            <column name="price" value="319"/>
+            <column name="description" value="Кофе холодного заваривания с мягким вкусом и низкой кислотностью."/>
+            <column name="image_name" value="cold_brew.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Айс Американо"/>
+            <column name="price" value="269"/>
+            <column name="description" value="Охлажденный американо со льдом, освежающий вариант классического напитка."/>
+            <column name="image_name" value="iced_americano.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Аффогато"/>
+            <column name="price" value="339"/>
+            <column name="description" value="Шарик ванильного мороженого, залитый горячим эспрессо."/>
+            <column name="image_name" value="affogato.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Нитро Колд Брю"/>
+            <column name="price" value="349"/>
+            <column name="description" value="Колд брю, обогащенный азотом для создания кремовой текстуры и мягкого вкуса."/>
+            <column name="image_name" value="nitro_cold_brew.jpg"/>
+        </insert>
+        <insert tableName="coffee">
+            <column name="type_id" value="3"/>
+            <column name="name" value="Айс Мокко"/>
+            <column name="price" value="339"/>
+            <column name="description" value="Холодный кофейно-шоколадный напиток с молоком и льдом."/>
+            <column name="image_name" value="iced_mocha.jpg"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
