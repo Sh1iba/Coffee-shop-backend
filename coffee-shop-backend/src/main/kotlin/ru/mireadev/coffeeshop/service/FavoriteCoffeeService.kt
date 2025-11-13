@@ -26,7 +26,8 @@ class FavoriteCoffeeService(
             val coffee = favoriteCoffee.coffee ?: return@mapNotNull null
             
             FavoriteCoffeeResponse(
-                id = coffee.id
+                id = coffee.id,
+                selectedSize = favoriteCoffee.selectedSize
             )
         }
         
@@ -42,14 +43,24 @@ class FavoriteCoffeeService(
             .orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(mapOf("message" to "Coffee not found"))
 
+        val validSizes = coffee.sizes.map { it.size }
+        if (!validSizes.contains(request.selectedSize)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(mapOf("message" to "Invalid size for this coffee"))
+        }
+
         if (favoriteCoffeeRepository.existsByUserIdAndCoffeeId(userId, request.coffeeId)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(mapOf("message" to "Coffee already in favorites"))
+            val existingFavorite = favoriteCoffeeRepository.findByUserIdAndCoffeeId(userId, request.coffeeId)
+            existingFavorite?.let {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(mapOf("message" to "Coffee already in favorites"))
+            }
         }
 
         val favoriteCoffee = FavoriteCoffee(
             userId = userId,
-            coffeeId = request.coffeeId
+            coffeeId = request.coffeeId,
+            selectedSize = request.selectedSize
         )
         
         favoriteCoffeeRepository.save(favoriteCoffee)

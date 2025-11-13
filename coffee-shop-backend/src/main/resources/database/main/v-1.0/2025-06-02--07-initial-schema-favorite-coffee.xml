@@ -13,6 +13,9 @@
             <column name="coffee_id" type="int">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>
             </column>
+            <column name="selected_size" type="varchar(5)" defaultValue="M">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint 

@@ -14,6 +14,9 @@ data class FavoriteCoffee(
     @Column(name = "coffee_id")
     val coffeeId: Int,
 
+    @Column(name = "coffee_selected_size", nullable = false)
+    val selectedSize: String,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     val user: User? = null,
