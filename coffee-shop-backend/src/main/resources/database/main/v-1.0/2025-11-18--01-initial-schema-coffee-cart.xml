@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="20251118-01" author="Ibrogimov Zafar">
+        <createTable tableName="coffee_cart">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coffee_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="selected_size" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="coffee_cart"
+                columnNames="user_id, coffee_id, selected_size"
+                constraintName="pk_coffee_cart"/>
+
+        <addForeignKeyConstraint
+                baseTableName="coffee_cart"
+                baseColumnNames="user_id"
+                constraintName="fk_cart_user"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="coffee_cart"
+                baseColumnNames="coffee_id"
+                constraintName="fk_cart_coffee"
+                referencedTableName="coffee"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

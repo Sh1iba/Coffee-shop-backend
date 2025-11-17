@@ -13,21 +13,21 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import ru.mireadev.coffeeshop.dto.*
-import ru.mireadev.coffeeshop.service.CoffeeService
-import ru.mireadev.coffeeshop.service.FavoriteCoffeeService
-import ru.mireadev.coffeeshop.service.ImageStorageService
-import ru.mireadev.coffeeshop.service.UserService
+import ru.mireadev.coffeeshop.service.*
 
 
 @RestController
 @RequestMapping("/api/coffee")
-@Tag(name = "Кофе", description = "Эндпоинты для работы с кофе и избранным")
+@Tag(name = "Кофе", description = "Эндпоинты для работы с кофе, избранным и корзиной")
 class CoffeeController(
     private val coffeeService: CoffeeService,
     private val imageStorageService: ImageStorageService,
     private val favoriteCoffeeService: FavoriteCoffeeService,
+    private val coffeeCartService: CoffeeCartService,
     private val userService: UserService
 ) {
+
+    // Существующие эндпоинты для кофе и избранного...
     @Operation(
         summary = "Получение всех типов кофе",
         description = "Возвращает список всех доступных типов кофе",
@@ -61,7 +61,6 @@ class CoffeeController(
             )
         ]
     )
-
     @GetMapping()
     fun getAllCoffee(): ResponseEntity<List<CoffeeResponse>>{
         return coffeeService.getAllCoffee()
@@ -82,7 +81,6 @@ class CoffeeController(
             )
         ]
     )
-
     @GetMapping("/image/{imageName}")
     fun getImageCoffeeByImageName(
         @Parameter(description = "Имя файла изображения", required = true)
@@ -103,6 +101,7 @@ class CoffeeController(
             .body(resource)
     }
 
+    // Эндпоинты для избранного...
     @Operation(
         summary = "Получение избранных кофейных напитков",
         description = "Возвращает список кофейных напитков, добавленных пользователем в избранное",
@@ -198,5 +197,181 @@ class CoffeeController(
     ): ResponseEntity<Any> {
         val userId = userService.getUserIdFromAuthentication(authentication)
         return favoriteCoffeeService.removeFromFavorites(userId, coffeeId)
+    }
+
+    // Эндпоинты для корзины
+    @Operation(
+        summary = "Получение содержимого корзины",
+        description = "Возвращает полную информацию о корзине пользователя",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Корзина успешно получена",
+                content = [Content(
+                    mediaType = "application/json",
+                    array = ArraySchema(schema = Schema(implementation = CoffeeCartResponse::class))
+                )]
+            )
+        ]
+    )
+    @GetMapping("/cart")
+    fun getCart(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication
+    ): ResponseEntity<CartSummaryResponse> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return coffeeCartService.getCart(userId)
+    }
+
+    @Operation(
+        summary = "Добавление кофе в корзину",
+        description = "Добавляет кофейный напиток в корзину пользователя",
+        responses = [
+            ApiResponse(
+                responseCode = "201",
+                description = "Кофе успешно добавлен в корзину",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "200",
+                description = "Количество существующего товара обновлено",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Кофе или пользователь не найден",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Неверный размер для данного кофе",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            )
+        ]
+    )
+    @PostMapping("/cart")
+    fun addToCart(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication,
+        @Parameter(description = "Данные о кофе для добавления в корзину", required = true)
+        @RequestBody request: CoffeeCartRequest
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return coffeeCartService.addToCart(userId, request)
+    }
+
+    @Operation(
+        summary = "Обновление количества товара в корзине",
+        description = "Изменяет количество конкретного товара в корзине",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Количество успешно обновлено",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Товар не найден в корзине",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Количество должно быть больше 0",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            )
+        ]
+    )
+    @PutMapping("/cart/{coffeeId}/{selectedSize}")
+    fun updateCartQuantity(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication,
+        @Parameter(description = "ID кофе", required = true)
+        @PathVariable coffeeId: Int,
+        @Parameter(description = "Выбранный размер", required = true)
+        @PathVariable selectedSize: String,
+        @Parameter(description = "Новое количество", required = true)
+        @RequestBody request: UpdateCartQuantityRequest
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return coffeeCartService.updateQuantity(userId, coffeeId, selectedSize, request)
+    }
+
+    @Operation(
+        summary = "Удаление товара из корзины",
+        description = "Удаляет конкретный товар из корзины пользователя",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Товар успешно удален из корзины",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Товар не найден в корзине",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            )
+        ]
+    )
+    @DeleteMapping("/cart/{coffeeId}/{selectedSize}")
+    fun removeFromCart(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication,
+        @Parameter(description = "ID кофе", required = true)
+        @PathVariable coffeeId: Int,
+        @Parameter(description = "Выбранный размер", required = true)
+        @PathVariable selectedSize: String
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return coffeeCartService.removeFromCart(userId, coffeeId, selectedSize)
+    }
+
+    @Operation(
+        summary = "Очистка корзины",
+        description = "Полностью очищает корзину пользователя",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Корзина успешно очищена",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MessageResponse::class)
+                )]
+            )
+        ]
+    )
+    @DeleteMapping("/cart")
+    fun clearCart(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return coffeeCartService.clearCart(userId)
     }
 }
