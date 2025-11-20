@@ -13,25 +13,25 @@
             <column name="coffee_id" type="int">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>
             </column>
-            <column name="selected_size" type="varchar(5)" defaultValue="M">
-                <constraints nullable="false"/>
+            <column name="selected_size" type="varchar(5)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_favorite_coffee"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint 
-            baseTableName="favorite_coffee"
-            baseColumnNames="user_id"
-            constraintName="fk_favorite_coffee_user_id"
-            referencedTableName="users"
-            referencedColumnNames="id"
-            onDelete="CASCADE"/>
+        <addForeignKeyConstraint
+                baseTableName="favorite_coffee"
+                baseColumnNames="user_id"
+                constraintName="fk_favorite_coffee_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
 
-        <addForeignKeyConstraint 
-            baseTableName="favorite_coffee"
-            baseColumnNames="coffee_id"
-            constraintName="fk_favorite_coffee_coffee_id"
-            referencedTableName="coffee"
-            referencedColumnNames="id"
-            onDelete="CASCADE"/>
+        <addForeignKeyConstraint
+                baseTableName="favorite_coffee"
+                baseColumnNames="coffee_id"
+                constraintName="fk_favorite_coffee_coffee_id"
+                referencedTableName="coffee"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
     </changeSet>
-</databaseChangeLog> 
+</databaseChangeLog>

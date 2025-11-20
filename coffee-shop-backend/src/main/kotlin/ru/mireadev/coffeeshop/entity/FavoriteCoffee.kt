@@ -14,7 +14,8 @@ data class FavoriteCoffee(
     @Column(name = "coffee_id")
     val coffeeId: Int,
 
-    @Column(name = "selected_size", nullable = false)
+    @Id
+    @Column(name = "selected_size")
     val selectedSize: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,5 +29,6 @@ data class FavoriteCoffee(
 
 data class FavoriteCoffeeId(
     val userId: Long = 0,
-    val coffeeId: Int = 0
-) : java.io.Serializable 
+    val coffeeId: Int = 0,
+    val selectedSize: String = ""
+) : java.io.Serializable

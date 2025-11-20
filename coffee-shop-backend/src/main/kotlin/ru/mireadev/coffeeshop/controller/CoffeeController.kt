@@ -27,7 +27,6 @@ class CoffeeController(
     private val userService: UserService
 ) {
 
-    // Существующие эндпоинты для кофе и избранного...
     @Operation(
         summary = "Получение всех типов кофе",
         description = "Возвращает список всех доступных типов кофе",
@@ -101,7 +100,6 @@ class CoffeeController(
             .body(resource)
     }
 
-    // Эндпоинты для избранного...
     @Operation(
         summary = "Получение избранных кофейных напитков",
         description = "Возвращает список кофейных напитков, добавленных пользователем в избранное",
@@ -168,7 +166,7 @@ class CoffeeController(
 
     @Operation(
         summary = "Удаление кофе из избранного",
-        description = "Удаляет выбранный кофейный напиток из избранного пользователя",
+        description = "Удаляет выбранный кофейный напиток из избранного пользователя. Можно удалить конкретный размер или все размеры",
         responses = [
             ApiResponse(
                 responseCode = "200",
@@ -193,13 +191,14 @@ class CoffeeController(
         @Parameter(description = "Данные аутентификации", hidden = true)
         authentication: Authentication,
         @Parameter(description = "ID кофе для удаления из избранного", required = true)
-        @PathVariable coffeeId: Int
+        @PathVariable coffeeId: Int,
+        @Parameter(description = "Конкретный размер для удаления (опционально)")
+        @RequestParam(required = false) size: String?
     ): ResponseEntity<Any> {
         val userId = userService.getUserIdFromAuthentication(authentication)
-        return favoriteCoffeeService.removeFromFavorites(userId, coffeeId)
+        return favoriteCoffeeService.removeFromFavorites(userId, coffeeId, size)
     }
 
-    // Эндпоинты для корзины
     @Operation(
         summary = "Получение содержимого корзины",
         description = "Возвращает полную информацию о корзине пользователя",
@@ -209,7 +208,7 @@ class CoffeeController(
                 description = "Корзина успешно получена",
                 content = [Content(
                     mediaType = "application/json",
-                    array = ArraySchema(schema = Schema(implementation = CoffeeCartResponse::class))
+                    schema = Schema(implementation = CartSummaryResponse::class)
                 )]
             )
         ]
