@@ -24,7 +24,8 @@ class CoffeeController(
     private val imageStorageService: ImageStorageService,
     private val favoriteCoffeeService: FavoriteCoffeeService,
     private val coffeeCartService: CoffeeCartService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val orderService: OrderService
 ) {
 
     @Operation(
@@ -373,4 +374,95 @@ class CoffeeController(
         val userId = userService.getUserIdFromAuthentication(authentication)
         return coffeeCartService.clearCart(userId)
     }
+
+    @Operation(
+        summary = "Оформление заказа",
+        description = "Создает заказ на основе выбранных товаров из корзины",
+        responses = [
+            ApiResponse(
+                responseCode = "201",
+                description = "Заказ успешно создан",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = Map::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "400",
+                description = "Нет выбранных товаров или адрес не указан",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = Map::class)
+                )]
+            )
+        ]
+    )
+    @PostMapping("/checkout")
+    fun checkout(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication,
+        @Parameter(description = "Данные для оформления заказа", required = true)
+        @RequestBody request: OrderRequest
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return orderService.createOrder(userId, request)
+    }
+
+    @Operation(
+        summary = "Получение истории заказов",
+        description = "Возвращает историю заказов пользователя",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "История заказов успешно получена",
+                content = [Content(
+                    mediaType = "application/json",
+                    array = ArraySchema(schema = Schema(implementation = OrderResponse::class))
+                )]
+            )
+        ]
+    )
+    @GetMapping("/orders/history")
+    fun getOrderHistory(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication
+    ): ResponseEntity<List<OrderResponse>> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return orderService.getOrderHistory(userId)
+    }
+
+    @Operation(
+        summary = "Получение деталей заказа",
+        description = "Возвращает детальную информацию о заказе",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Детали заказа успешно получены",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = OrderResponse::class)
+                )]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "Заказ не найден",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = Map::class)
+                )]
+            )
+        ]
+    )
+    @GetMapping("/orders/{orderId}")
+    fun getOrderDetails(
+        @Parameter(description = "Данные аутентификации", hidden = true)
+        authentication: Authentication,
+        @Parameter(description = "ID заказа", required = true)
+        @PathVariable orderId: Long
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return orderService.getOrderDetails(userId, orderId)
+    }
+
+
 }

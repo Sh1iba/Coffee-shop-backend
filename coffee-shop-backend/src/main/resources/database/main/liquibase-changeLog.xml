@@ -15,5 +15,7 @@
     <include file="v-1.0/2025-06-02--06-data-coffee-size.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2025-06-02--07-initial-schema-favorite-coffee.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2025-11-18--01-initial-schema-coffee-cart.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2025-01-15--01-initial-schema-orders.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2025-01-15--02-initial-schema-order-items.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
