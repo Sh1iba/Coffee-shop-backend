@@ -3,11 +3,10 @@ package ru.mireadev.coffeeshop.entity
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
-import java.math.BigDecimal
 
 @Entity
-@Table(name = "coffee")
-data class Coffee @JvmOverloads constructor(
+@Table(name = "products")
+data class Product @JvmOverloads constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -16,7 +15,7 @@ data class Coffee @JvmOverloads constructor(
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "type_id", nullable = false)
-    var type: CoffeeType = CoffeeType(),
+    var category: ProductCategory = ProductCategory(),
 
     @Size(max = 20)
     @NotNull
@@ -33,6 +32,6 @@ data class Coffee @JvmOverloads constructor(
     @Column(name = "image_name", nullable = false, length = 50)
     var imageName: String = "",
 
-    @OneToMany(mappedBy = "coffee", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var sizes: MutableList<CoffeeSize> = mutableListOf()
+    @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var variants: MutableList<ProductVariant> = mutableListOf()
 )

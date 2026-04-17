@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="rename-tables-for-marketplace" author="Ibrogimov Zafar">
+        <renameTable oldTableName="coffee" newTableName="products"/>
+        <renameTable oldTableName="coffee_type" newTableName="product_categories"/>
+        <renameTable oldTableName="coffee_size" newTableName="product_variants"/>
+        <renameTable oldTableName="favorite_coffee" newTableName="favorite_products"/>
+        <renameTable oldTableName="coffee_cart" newTableName="cart_items"/>
+        <renameColumn tableName="order_items" oldColumnName="coffee_name" newColumnName="product_name" columnDataType="VARCHAR(255)"/>
+    </changeSet>
+
+</databaseChangeLog>

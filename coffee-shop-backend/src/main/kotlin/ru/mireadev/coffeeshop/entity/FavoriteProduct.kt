@@ -3,16 +3,16 @@ package ru.mireadev.coffeeshop.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "favorite_coffee")
-@IdClass(FavoriteCoffeeId::class)
-data class FavoriteCoffee(
+@Table(name = "favorite_products")
+@IdClass(FavoriteProductId::class)
+data class FavoriteProduct(
     @Id
     @Column(name = "user_id")
     val userId: Long,
 
     @Id
     @Column(name = "coffee_id")
-    val coffeeId: Int,
+    val productId: Int,
 
     @Id
     @Column(name = "selected_size")
@@ -24,11 +24,11 @@ data class FavoriteCoffee(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coffee_id", insertable = false, updatable = false)
-    val coffee: Coffee? = null
+    val product: Product? = null
 )
 
-data class FavoriteCoffeeId(
+data class FavoriteProductId(
     val userId: Long = 0,
-    val coffeeId: Int = 0,
+    val productId: Int = 0,
     val selectedSize: String = ""
 ) : java.io.Serializable

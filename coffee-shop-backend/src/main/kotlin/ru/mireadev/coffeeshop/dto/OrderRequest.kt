@@ -17,9 +17,9 @@ data class OrderRequest(
 
 @Schema(description = "Элемент корзины для заказа")
 data class OrderCartItem(
-    @field:Schema(description = "ID кофе", example = "1", required = true)
-    val coffeeId: Int,
+    @field:Schema(description = "ID товара", example = "1", required = true)
+    val productId: Int,
 
-    @field:Schema(description = "Выбранный размер", example = "L", required = true)
+    @field:Schema(description = "Выбранный размер / вариант", example = "L", required = true)
     val selectedSize: String
 )

@@ -30,8 +30,8 @@ data class OrderItemResponse(
     @field:Schema(description = "ID элемента заказа", example = "1")
     val id: Long,
 
-    @field:Schema(description = "Название кофе", example = "Раф")
-    val coffeeName: String,
+    @field:Schema(description = "Название товара", example = "Раф")
+    val productName: String,
 
     @field:Schema(description = "Выбранный размер", example = "L")
     val selectedSize: String,

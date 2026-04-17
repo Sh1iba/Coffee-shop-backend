@@ -2,15 +2,15 @@ package ru.mireadev.coffeeshop.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "Информация о кофе в корзине")
-data class CoffeeCartResponse(
-    @field:Schema(description = "Id кофе", example = "2")
+@Schema(description = "Товар в корзине")
+data class CartItemResponse(
+    @field:Schema(description = "ID товара", example = "2")
     val id: Int,
 
-    @field:Schema(description = "Название кофе", example = "Раф")
+    @field:Schema(description = "Название товара", example = "Раф")
     val name: String,
 
-    @field:Schema(description = "Выбранный размер", example = "L")
+    @field:Schema(description = "Выбранный размер / вариант", example = "L")
     val selectedSize: String,
 
     @field:Schema(description = "Цена за единицу", example = "345.9")
@@ -22,18 +22,18 @@ data class CoffeeCartResponse(
     @field:Schema(description = "Общая стоимость", example = "691.8")
     val totalPrice: Float,
 
-    @field:Schema(description = "Ссылка на изображение", example = "raf.jpg")
+    @field:Schema(description = "Имя файла изображения", example = "raf.jpg")
     val imageName: String
 )
 
-@Schema(description = "Общая информация о корзине")
+@Schema(description = "Содержимое корзины")
 data class CartSummaryResponse(
     @field:Schema(description = "Товары в корзине")
-    val items: List<CoffeeCartResponse>,
+    val items: List<CartItemResponse>,
 
     @field:Schema(description = "Общее количество товаров", example = "5")
     val totalItems: Int,
 
-    @field:Schema(description = "Общая стоимость корзины", example = "1250.5")
+    @field:Schema(description = "Общая стоимость", example = "1250.5")
     val totalPrice: Float
 )

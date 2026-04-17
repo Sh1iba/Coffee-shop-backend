@@ -19,5 +19,6 @@
     <include file="v-1.0/2025-01-15--02-initial-schema-order-items.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2026-04-13--01-add-role-to-users.xml" relativeToChangelogFile="true"/>
     <include file="v-1.0/2026-04-13--02-initial-schema-sellers.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/2026-04-17--01-rename-tables-for-marketplace.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

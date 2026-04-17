@@ -38,8 +38,8 @@ data class OrderItem(
     @JoinColumn(name = "order_id", nullable = false)
     var order: Order,
 
-    @Column(name = "coffee_name", nullable = false)
-    val coffeeName: String,
+    @Column(name = "product_name", nullable = false)
+    val productName: String,
 
     @Column(name = "selected_size", nullable = false)
     val selectedSize: String,
