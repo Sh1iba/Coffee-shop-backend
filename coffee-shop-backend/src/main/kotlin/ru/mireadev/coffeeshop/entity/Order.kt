@@ -4,6 +4,10 @@ import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+enum class OrderStatus {
+    PENDING, CONFIRMED, PROCESSING, DELIVERED, CANCELLED
+}
+
 @Entity
 @Table(name = "orders")
 data class Order(
@@ -24,7 +28,11 @@ data class Order(
     val deliveryAddress: String,
 
     @Column(name = "order_date", nullable = false)
-    val orderDate: LocalDateTime = LocalDateTime.now()
+    val orderDate: LocalDateTime = LocalDateTime.now(),
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    var status: OrderStatus = OrderStatus.PENDING
 )
 
 @Entity
@@ -51,5 +59,8 @@ data class OrderItem(
     val quantity: Int,
 
     @Column(name = "total_price", nullable = false)
-    val totalPrice: BigDecimal
+    val totalPrice: BigDecimal,
+
+    @Column(name = "seller_id", nullable = true)
+    val sellerId: Long? = null
 )

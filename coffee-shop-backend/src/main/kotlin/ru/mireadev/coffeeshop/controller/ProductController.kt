@@ -2,10 +2,6 @@ package ru.mireadev.coffeeshop.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.media.ArraySchema
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
@@ -27,21 +23,37 @@ class ProductController(
     private val orderService: OrderService
 ) {
 
+    // ── Каталог ────────────────────────────────────────────────────────────
+
     @Operation(summary = "Все категории товаров")
     @GetMapping("/categories")
     fun getAllCategories(): ResponseEntity<List<ProductCategoryResponse>> =
         productService.getAllCategories()
 
-    @Operation(summary = "Все товары")
+    @Operation(
+        summary = "Каталог товаров с фильтрацией и пагинацией",
+        description = """
+            Параметры:
+            - page (default 0) — номер страницы
+            - size (default 10) — размер страницы
+            - categoryId — фильтр по категории
+            - sellerId — фильтр по магазину
+            - name — поиск по названию (частичное совпадение)
+        """
+    )
     @GetMapping
-    fun getAllProducts(): ResponseEntity<List<ProductResponse>> =
-        productService.getAllProducts()
+    fun getAllProducts(
+        @RequestParam(required = false) categoryId: Int?,
+        @RequestParam(required = false) sellerId: Long?,
+        @RequestParam(required = false) name: String?,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): ResponseEntity<PagedResponse<ProductResponse>> =
+        productService.getAllProducts(categoryId, sellerId, name, page, size)
 
     @Operation(summary = "Изображение товара")
     @GetMapping("/image/{imageName}")
-    fun getImage(
-        @PathVariable imageName: String
-    ): ResponseEntity<Resource> {
+    fun getImage(@PathVariable imageName: String): ResponseEntity<Resource> {
         val resource = imageStorageService.getImageResource(imageName)
         val contentType = when (imageName.substringAfterLast('.').lowercase()) {
             "jpg", "jpeg" -> MediaType.IMAGE_JPEG
@@ -52,7 +64,7 @@ class ProductController(
         return ResponseEntity.ok().contentType(contentType).body(resource)
     }
 
-    // ── ИЗБРАННОЕ ──────────────────────────────────────────────────────────
+    // ── Избранное ──────────────────────────────────────────────────────────
 
     @Operation(summary = "Получить избранное")
     @GetMapping("/favorites")
@@ -71,7 +83,7 @@ class ProductController(
         return favoriteProductService.addToFavorites(userId, request)
     }
 
-    @Operation(summary = "Удалить товар из избранного")
+    @Operation(summary = "Удалить товар из избранного (?size=L — конкретный вариант)")
     @DeleteMapping("/favorites/{productId}")
     fun removeFromFavorites(
         authentication: Authentication,
@@ -82,7 +94,7 @@ class ProductController(
         return favoriteProductService.removeFromFavorites(userId, productId, size)
     }
 
-    // ── КОРЗИНА ────────────────────────────────────────────────────────────
+    // ── Корзина ────────────────────────────────────────────────────────────
 
     @Operation(summary = "Получить корзину")
     @GetMapping("/cart")
@@ -101,7 +113,7 @@ class ProductController(
         return cartService.addToCart(userId, request)
     }
 
-    @Operation(summary = "Обновить количество товара в корзине")
+    @Operation(summary = "Обновить количество в корзине")
     @PutMapping("/cart/{productId}/{selectedSize}")
     fun updateCartQuantity(
         authentication: Authentication,
@@ -131,7 +143,7 @@ class ProductController(
         return cartService.clearCart(userId)
     }
 
-    // ── ЗАКАЗЫ ─────────────────────────────────────────────────────────────
+    // ── Заказы ─────────────────────────────────────────────────────────────
 
     @Operation(summary = "Оформить заказ")
     @PostMapping("/checkout")
@@ -158,5 +170,15 @@ class ProductController(
     ): ResponseEntity<Any> {
         val userId = userService.getUserIdFromAuthentication(authentication)
         return orderService.getOrderDetails(userId, orderId)
+    }
+
+    @Operation(summary = "Отменить заказ (только статус PENDING)")
+    @PutMapping("/orders/{orderId}/cancel")
+    fun cancelOrder(
+        authentication: Authentication,
+        @PathVariable orderId: Long
+    ): ResponseEntity<Any> {
+        val userId = userService.getUserIdFromAuthentication(authentication)
+        return orderService.cancelOrder(userId, orderId)
     }
 }

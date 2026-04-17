@@ -17,9 +17,13 @@ data class Product @JvmOverloads constructor(
     @JoinColumn(name = "type_id", nullable = false)
     var category: ProductCategory = ProductCategory(),
 
-    @Size(max = 20)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id", nullable = true)
+    var seller: Seller? = null,
+
+    @Size(max = 100)
     @NotNull
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 100)
     var name: String = "",
 
     @Size(max = 500)

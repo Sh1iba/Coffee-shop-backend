@@ -20,5 +20,11 @@ data class ProductResponse(
     val imageName: String,
 
     @field:Schema(description = "Варианты товара (размер и цена)")
-    val variants: List<ProductVariantResponse>
+    val variants: List<ProductVariantResponse>,
+
+    @field:Schema(description = "ID магазина продавца", example = "1")
+    val sellerId: Long? = null,
+
+    @field:Schema(description = "Название магазина продавца", example = "Coffee House")
+    val sellerName: String? = null
 )

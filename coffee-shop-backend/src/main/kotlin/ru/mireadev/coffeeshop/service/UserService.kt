@@ -1,5 +1,7 @@
 package ru.mireadev.coffeeshop.service
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -21,78 +23,75 @@ class UserService(
         data class ValidationError(val error: ErrorResponse) : RegistrationResult()
     }
 
-    fun registerUser(request: RegisterRequest): RegistrationResult {
-        // Проверка уникальности
-        if (userRepository.existsByEmail(request.email)) {
-            return RegistrationResult.Conflict(
-                ErrorResponse(
-                    success = false,
-                    message = "Email уже зарегистрирован",
-                    errorCode = "EMAIL_EXISTS"
-                )
-            )
-        }
-
-        // Создание пользователя
-        val user = User(
-            email = request.email,
-            passwordHash = passwordEncoder.encode(request.password),
-            name = request.name,
-            role = request.role
-        )
-
-        val savedUser = userRepository.save(user)
-
-        return RegistrationResult.Success(
-            RegisterResponse(
-                userID = savedUser.id,
-                name = savedUser.name,
-                email = savedUser.email,
-                role = savedUser.role
-            )
-        )
-    }
-
     sealed class AuthResult {
         data class Success(val response: LoginResponse) : AuthResult()
         data class InvalidCredentials(val error: ErrorResponse) : AuthResult()
     }
 
-    fun authenticate(request: LoginRequest): AuthResult {
-        val user = userRepository.findByEmail(request.email)
-            ?: return AuthResult.InvalidCredentials(
-                ErrorResponse(
-                    success = false,
-                    message = "Пользователь с такой почтой не найден",
-                    errorCode = "AUTH_FAILED"
-                )
+    fun registerUser(request: RegisterRequest): RegistrationResult {
+        if (userRepository.existsByEmail(request.email)) {
+            return RegistrationResult.Conflict(
+                ErrorResponse(success = false, message = "Email уже зарегистрирован", errorCode = "EMAIL_EXISTS")
             )
-
-        if (!passwordEncoder.matches(request.password, user.passwordHash)) {
-            return AuthResult.InvalidCredentials(
-                ErrorResponse(
-                    success = false,
-                    message = "Неверный пароль",
-                    errorCode = "AUTH_FAILED"
-                )
-            )
-
         }
-        val userDetails = userDetailsService.loadUserByUsername(user.email)
-        return AuthResult.Success(
-            LoginResponse(
-                userId = user.id,
-                token = "Bearer " + jwtService.generateToken(userDetails),
-                name = user.name,
-                email = user.email,
-                role = user.role
-            )
+        val saved = userRepository.save(
+            User(email = request.email, passwordHash = passwordEncoder.encode(request.password),
+                name = request.name, role = request.role)
+        )
+        return RegistrationResult.Success(
+            RegisterResponse(userID = saved.id, name = saved.name, email = saved.email, role = saved.role)
         )
     }
 
+    fun authenticate(request: LoginRequest): AuthResult {
+        val user = userRepository.findByEmail(request.email)
+            ?: return AuthResult.InvalidCredentials(
+                ErrorResponse(success = false, message = "Пользователь с такой почтой не найден", errorCode = "AUTH_FAILED")
+            )
+        if (!passwordEncoder.matches(request.password, user.passwordHash)) {
+            return AuthResult.InvalidCredentials(
+                ErrorResponse(success = false, message = "Неверный пароль", errorCode = "AUTH_FAILED")
+            )
+        }
+        val userDetails = userDetailsService.loadUserByUsername(user.email)
+        return AuthResult.Success(
+            LoginResponse(userId = user.id, token = "Bearer " + jwtService.generateToken(userDetails),
+                name = user.name, email = user.email, role = user.role)
+        )
+    }
+
+    fun getProfile(userId: Long): ResponseEntity<Any> {
+        val user = userRepository.findById(userId).orElse(null)
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("message" to "Пользователь не найден"))
+        return ResponseEntity.ok(
+            AdminUserResponse(id = user.id, email = user.email, name = user.name, role = user.role)
+        )
+    }
+
+    fun updateProfile(userId: Long, request: UpdateProfileRequest): ResponseEntity<Any> {
+        val user = userRepository.findById(userId).orElse(null)
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("message" to "Пользователь не найден"))
+
+        if (request.newPassword != null) {
+            if (request.currentPassword == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(mapOf("message" to "Для смены пароля укажите текущий пароль"))
+            }
+            if (!passwordEncoder.matches(request.currentPassword, user.passwordHash)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(mapOf("message" to "Неверный текущий пароль"))
+            }
+            user.passwordHash = passwordEncoder.encode(request.newPassword)
+        }
+
+        if (request.name != null) user.name = request.name
+        userRepository.save(user)
+
+        return ResponseEntity.ok(mapOf("message" to "Профиль обновлён"))
+    }
+
     fun getUserIdFromAuthentication(authentication: Authentication): Long {
-        val userName = (authentication.principal as org.springframework.security.core.userdetails.User).username
-        val user = userRepository.findByEmail(userName)
-        return user!!.id.toLong()
+        val email = (authentication.principal as org.springframework.security.core.userdetails.User).username
+        return userRepository.findByEmail(email)!!.id
     }
 }
